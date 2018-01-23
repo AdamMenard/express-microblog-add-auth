@@ -34,24 +34,34 @@
     </div>
   </div>
 
+  <% if(!user) { %>
+    <a href="/login">Log in</a>
+    <a href="/signup">Sign up</a>
+  <% } else { %>
+    <div>Welcome, <%= user.username %>!</div>
+    <a href="/logout">Log out</a>
+  <% } %>
+
   <!-- page content -->
   <div class="container">
     <div class="row">
       <div class="col-md-12">
 
         <!-- new post form-->
-        <form class="form-inline" id="create-post" method="POST" action="/posts">
-          <div class="form-group">
-            <input type="text" name="title" class="form-control" placeholder="Title" autofocus>
-          </div>
-          <div class="form-group">
-            <input type="text" name="description" class="form-control" placeholder="Description">
-          </div>
-          <div class="form-group">
-            <input type="submit" class="btn btn-default" value="Add Post">
-          </div>
-        </form>
-        <br>
+        <% if(user) { %>
+          <form class="form-inline" id="create-post" method="POST" action="/posts">
+            <div class="form-group">
+              <input type="text" name="title" class="form-control" placeholder="Title" autofocus>
+            </div>
+            <div class="form-group">
+              <input type="text" name="description" class="form-control" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <input type="submit" class="btn btn-default" value="Add Post">
+            </div>
+          </form>
+          <br>
+        <% } %>
 
         <!-- list of posts -->
         <ul class="list-group" id="posts-list">
@@ -72,7 +82,7 @@
                   </a>
 
                   <!-- trash can icon to delete post -->
-                  <form action="/posts/<%= post._id %>" method="DELETE">
+                  <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
                     <button>
                       <span class="glyphicon glyphicon-trash"></span>
                     </button>
