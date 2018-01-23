@@ -65,15 +65,31 @@ app.get("/posts/:id", function(req, res) {
 app.post("/posts", function(req, res) {
   var newPost = new Post(req.body);
 
+
+  if (req.user) {
   // save new post in db
   newPost.save(function (err) {
     if (err) {
       res.status(500).json({ error: err.message, });
     } else {
       res.redirect("/");
-    }
-  });
+     }
+   });
+ } else {
+   res.redirect("/");
+ }
 });
+
+
+//   // save new post in db
+//   newPost.save(function (err) {
+//     if (err) {
+//       res.status(500).json({ error: err.message, });
+//     } else {
+//       res.redirect("/");
+//     }
+//   });
+// });
 
 // update post
 app.put("/posts/:id", function (req, res) {
